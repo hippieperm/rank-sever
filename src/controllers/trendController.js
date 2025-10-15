@@ -2,9 +2,9 @@ const TrendModel = require("../models/trendModel");
 const TrendScheduler = require("../scheduler");
 
 class TrendController {
-  constructor() {
+  constructor(scheduler = null) {
     this.trendModel = new TrendModel();
-    this.scheduler = new TrendScheduler();
+    this.scheduler = scheduler || new TrendScheduler();
   }
 
   /**

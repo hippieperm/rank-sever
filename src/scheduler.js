@@ -8,6 +8,7 @@ class TrendScheduler {
     this.naverService = new NaverDatalabService();
     this.trendModel = new TrendModel();
     this.isRunning = false;
+    this.lastRunTime = null;
   }
 
   /**
@@ -81,6 +82,9 @@ class TrendScheduler {
 
       const endTime = new Date();
       const duration = endTime - startTime;
+
+      // 마지막 실행 시간 업데이트
+      this.lastRunTime = endTime.toISOString();
 
       console.log(
         `[${endTime.toISOString()}] 트렌드 데이터 수집이 완료되었습니다.`

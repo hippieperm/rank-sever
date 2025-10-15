@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const path = require("path");
 require("dotenv").config();
 
-const trendRoutes = require("./routes/trendRoutes");
+const { createTrendRoutes } = require("./routes/trendRoutes");
 const TrendScheduler = require("./scheduler");
 
 class Server {
@@ -60,7 +60,7 @@ class Server {
    */
   setupRoutes() {
     // API 라우트
-    this.app.use("/api/trends", trendRoutes);
+    this.app.use("/api/trends", createTrendRoutes(this.scheduler));
 
     // 루트 경로
     this.app.get("/", (req, res) => {

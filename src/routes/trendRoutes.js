@@ -1,8 +1,10 @@
 const express = require("express");
 const TrendController = require("../controllers/trendController");
 
-const router = express.Router();
-const trendController = new TrendController();
+// 라우터를 생성하는 함수 (스케줄러 인스턴스를 받음)
+const createTrendRoutes = (scheduler) => {
+  const router = express.Router();
+  const trendController = new TrendController(scheduler);
 
 /**
  * @route GET /api/trends
@@ -87,14 +89,21 @@ router.get("/health", async (req, res) => {
   await trendController.healthCheck(req, res);
 });
 
-// 에러 핸들링 미들웨어
-router.use((err, req, res, next) => {
-  console.error("라우터 오류:", err);
-  res.status(500).json({
-    success: false,
-    message: "서버 내부 오류가 발생했습니다.",
-    error: process.env.NODE_ENV === "development" ? err.message : undefined,
+  // 에러 핸들링 미들웨어
+  router.use((err, req, res, next) => {
+    console.error("라우터 오류:", err);
+    res.status(500).json({
+      success: false,
+      message: "서버 내부 오류가 발생했습니다.",
+      error: process.env.NODE_ENV === "development" ? err.message : undefined,
+    });
   });
-});
 
-module.exports = router;
+  return router;
+};
+
+// 기본 라우터 (스케줄러 없이)
+const defaultRouter = createTrendRoutes(null);
+
+module.exports = defaultRouter;
+module.exports.createTrendRoutes = createTrendRoutes;
