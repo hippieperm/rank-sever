@@ -41,6 +41,7 @@ class TrendScheduler {
       }, 5000); // 5초 후 실행
     }
 
+    this.isRunning = true;
     console.log("스케줄러가 성공적으로 시작되었습니다.");
   }
 
@@ -174,6 +175,7 @@ class TrendScheduler {
     const tasks = cron.getTasks();
     tasks.forEach((task) => task.destroy());
 
+    this.isRunning = false;
     this.trendModel.close();
     console.log("스케줄러가 중지되었습니다.");
   }
