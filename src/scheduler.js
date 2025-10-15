@@ -170,7 +170,10 @@ class TrendScheduler {
    * 스케줄러 중지
    */
   stop() {
-    cron.destroy();
+    // 모든 크론 작업 중지
+    const tasks = cron.getTasks();
+    tasks.forEach((task) => task.destroy());
+
     this.trendModel.close();
     console.log("스케줄러가 중지되었습니다.");
   }

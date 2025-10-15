@@ -5,6 +5,27 @@ const router = express.Router();
 const trendController = new TrendController();
 
 /**
+ * @route GET /api/trends
+ * @desc 트렌드 API 루트 - 사용 가능한 엔드포인트 목록
+ */
+router.get("/", (req, res) => {
+  res.json({
+    message: "네이버 데이터랩 트렌드 API",
+    version: "1.0.0",
+    endpoints: [
+      "GET /api/trends/latest - 최신 트렌드 데이터 조회",
+      "GET /api/trends/date/:date - 특정 날짜의 트렌드 데이터 조회",
+      "GET /api/trends/keyword/:keyword/history - 키워드 히스토리 조회",
+      "GET /api/trends/stats - 트렌드 통계 정보 조회",
+      "POST /api/trends/collect - 수동 데이터 수집 실행",
+      "GET /api/trends/scheduler/status - 스케줄러 상태 조회",
+      "GET /api/trends/health - API 상태 확인",
+    ],
+    timestamp: new Date().toISOString(),
+  });
+});
+
+/**
  * @route GET /api/trends/latest
  * @desc 최신 트렌드 데이터 조회
  * @query limit - 조회할 개수 (기본값: 100, 최대: 500)
